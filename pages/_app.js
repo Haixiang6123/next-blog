@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import React from 'react'
 // 全局 css 只能放到 _app.js 里
-import 'styles/globals.css'
+import 'styles/globals.scss'
 
 function App({ Component, pageProps }) {
   console.log('app')

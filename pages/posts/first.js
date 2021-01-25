@@ -1,6 +1,6 @@
 import React from 'react'
 // 使用 CSS 模块化
-import styles from 'styles/first.module.css'
+import styles from 'styles/first.module.scss'
 
 // Node.js 和浏览器都会被打印
 console.log('执行了')
