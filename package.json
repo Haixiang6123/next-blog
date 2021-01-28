@@ -12,9 +12,12 @@
     "gray-matter": "^4.0.2",
     "next": "10.0.5",
     "next-images": "^1.7.0",
+    "pg": "^8.5.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "reflect-metadata": "^0.1.13",
     "sass": "^1.32.5",
+    "typeorm": "^0.2.30",
     "ua-parser-js": "^0.7.23"
   },
   "devDependencies": {
