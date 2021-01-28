@@ -33,3 +33,28 @@ CREATE DATABASE blog_test ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_U
 
 CREATE DATABASE blog_production ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
 ```
+
+## 运行 src/index.ts
+
+* 安装 @babel/cli
+* 安装 @babel/core
+* 安装 @babel/plugin-proposal-decorators
+* 改写 .babrlrc
+  
+```json
+{
+  "presets": [
+    "next/babel"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ]
+  ]
+}
+```
+
+* 编译 TypeScript `npx babel ./src --out-dir dist --extensions ".ts,.tsx"`
