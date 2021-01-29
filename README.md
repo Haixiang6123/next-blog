@@ -22,7 +22,7 @@ docker exec -it 容器ID bash
 * \c blog 用于连接 blog 数据库
 * \dt 用于 display tables
 
-### 创建数据库
+## 创建数据库
 
 需要三个数据库：开发、测试、生产。对应 development, test, production
 
@@ -32,6 +32,16 @@ CREATE DATABASE blog_development ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYP
 CREATE DATABASE blog_test ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
 
 CREATE DATABASE blog_production ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
+```
+
+## 数据库迁移
+
+```bash
+# 创建迁移版本
+npx typeorm migration:create -n CreatePost
+
+# 开始迁移
+npx typeorm migration:run
 ```
 
 ## 运行 src/index.ts
