@@ -9,7 +9,8 @@
     "next:start": "next start",
     "typeorm:dev": "babel -w ./src --out-dir dist --extensions .ts,.tsx",
     "migration:run": "typeorm migration:run",
-    "migration:revert": "typeorm migration:revert"
+    "migration:revert": "typeorm migration:revert",
+    "entity:create": "typeorm entity:create"
   },
   "dependencies": {
     "axios": "^0.21.1",
