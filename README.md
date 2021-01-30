@@ -38,7 +38,7 @@ CREATE DATABASE blog_production ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE
 
 ```bash
 # 创建迁移版本
-npx typeorm migration:create -n CreatePost
+npx typeorm migration:create -n CreatePosts
 
 # 开始迁移
 npx typeorm migration:run
