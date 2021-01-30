@@ -1,46 +1,35 @@
-import React, {useEffect, useState} from 'react';
-import {GetServerSideProps, NextPage} from 'next';
-import {UAParser} from 'ua-parser-js';
+import React, {useEffect} from 'react'
+import {GetServerSideProps, NextPage} from 'next'
 import getDBConnection from '../lib/getDBConnection'
 import {Post} from '../src/entity/Post'
 
 type Props = {
-  browser: {
-    name: string;
-    version: string;
-    major: string;
-  };
+  posts: Post[],
 }
 
 const Index: NextPage<Props> = (props) => {
-  const {browser} = props;
-
-  const [width, setWidth] = useState<number>(0);
+  const {posts} = props;
 
   useEffect(() => {
-    const w = document.documentElement.clientWidth;
-    setWidth(w);
   }, []);
 
   return (
     <div>
-      <h1>你的浏览器是 {browser.name}</h1>
-      <h1>你的浏览器窗口大小是 {width}</h1>
+      {posts.map(p => (
+        <div key={p.id}>{p.title}</div>
+      ))}
     </div>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const connection = await getDBConnection();
 
   const posts = await connection.manager.find(Post);
-  console.log(posts)
 
-  const ua = context.req.headers['user-agent']
-  const result = new UAParser(ua).getResult();
   return {
     props: {
-      browser: result.browser
+      posts: JSON.parse(JSON.stringify(posts)),
     }
   }
 }
