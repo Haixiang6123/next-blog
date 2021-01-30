@@ -10,11 +10,18 @@ type UserError = {
 }
 
 const Users: NextApiHandler = async (req, res) => {
+  const connection = await getDBConnection();
+
   const {username, password, passwordConfirmation} = req.body;
 
   const errors: UserError = {
     username: [], password: [], passwordConfirmation: []
   };
+
+  const found = await connection.manager.findOne(User, {username});
+  if (found) {
+    errors.username.push('已存在，不能重复注册');
+  }
 
   if (username.trim() === '') {
     errors.username.push('不能为空');
@@ -44,7 +51,6 @@ const Users: NextApiHandler = async (req, res) => {
     return res.end();
   }
 
-  const connection = await getDBConnection();
   const user = new User();
 
   user.username = username.trim();

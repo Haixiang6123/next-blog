@@ -1,4 +1,4 @@
-import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm'
+import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Unique} from 'typeorm'
 import {Post} from './Post'
 import {Comment} from './Comment'
 
