@@ -1,6 +1,7 @@
-import React from 'react';
-import {GetStaticPaths, GetStaticProps, NextPage} from 'next';
-import {getPost, getPostIds} from 'lib/posts';
+import React from 'react'
+import {GetServerSideProps, NextPage} from 'next'
+import getDBConnection from '../../lib/getDBConnection'
+import {Post} from '../../src/entity/Post'
 
 type Props = {
   post: Post;
@@ -17,24 +18,14 @@ const PostsShow: NextPage<Props> = (props) => {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const idList = await getPostIds();
+export const getServerSideProps: GetServerSideProps<any, {id: string}> = async (context) => {
+  const connection = await getDBConnection();
 
-  return {
-    paths: idList.map(id => ({ params: { id } })),
-    fallback: false
-  }
-}
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  // @ts-ignore
-  const id = context.params.id;
-
-  const post = await getPost(id as string);
+  const post = await connection.manager.findOne(Post, context.params.id)
 
   return {
     props: {
-      post,
+      post: JSON.parse(JSON.stringify(post))
     }
   }
 }
