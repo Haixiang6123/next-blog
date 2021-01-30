@@ -2,12 +2,6 @@ import {NextApiHandler} from 'next'
 import {User} from 'src/entity/User'
 import getDBConnection from 'lib/getDBConnection'
 
-type UserError = {
-  username: string[];
-  password: string[];
-  passwordConfirmation: string[];
-}
-
 const Users: NextApiHandler = async (req, res) => {
   const connection = await getDBConnection();
 
