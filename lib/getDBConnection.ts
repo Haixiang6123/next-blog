@@ -17,16 +17,13 @@ const create = async () => {
 const promise = (async function () {
   const manager = getConnectionManager();
 
-  const hasDefaultConnection = manager.has('default');
+  const current = manager.has('default') && manager.get('default');
 
-  // 开发环境需要判断是否已经存在 connection
-  if (!hasDefaultConnection) {
-    return create();
-  } else {
-    const current = manager.get('default');
-
-    return current.isConnected ? current : create()
+  if (current) {
+    await current.close();
   }
+
+  return create();
 })();
 
 const getDBConnection = async () => {
