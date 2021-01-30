@@ -23,8 +23,6 @@ const SignUp: NextPage = () => {
       await axios.post(`/api/v1/sessions`, formData)
 
       alert('登录成功')
-
-      window.location.href = '/sign_in'
     } catch (e) {
       alert('登录失败')
       if (e.response) {
