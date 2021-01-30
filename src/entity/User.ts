@@ -1,4 +1,5 @@
-import {BeforeInsert, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Unique} from 'typeorm'
+import {BeforeInsert, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import _ from 'lodash';
 import {Post} from './Post'
 import {Comment} from './Comment'
 import getDBConnection from '../../lib/getDBConnection'
@@ -79,5 +80,9 @@ export class User {
 
   hasErr() {
     return Object.values(this.errors).some(errList => errList.length > 0);
+  }
+
+  toJSON() {
+    return _.omit(this, ['password', 'passwordConfirmation', 'passwordDigest', 'errors']);
   }
 }
