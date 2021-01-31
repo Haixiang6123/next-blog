@@ -50,7 +50,7 @@ function useForm<F>(options: UseFormOptions<F>) {
       if (error.response) {
         const response: AxiosResponse = error.response;
         if (response.status === 422) {
-          setErrors(e.response.data)
+          setErrors(error.response.data)
         }
       }
     }
@@ -62,9 +62,10 @@ function useForm<F>(options: UseFormOptions<F>) {
         <div key={field.key.toString()}>
           <label>{field.label}
             {field.inputType === 'textarea'
-              ? <textarea onChange={(e) => onChange(field.key, e.target.value)}>
-                  {formData[field.key]}
-                </textarea>
+              ? <textarea
+                  value={formData[field.key].toString()}
+                  onChange={(e) => onChange(field.key, e.target.value)}
+                />
               : <input
                   type={field.inputType}
                   value={formData[field.key].toString()}

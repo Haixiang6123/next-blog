@@ -14,7 +14,7 @@ const Posts: NextApiHandler = async (req, res) => {
 
     post.title = title;
     post.content = content;
-    post.authorId = user.id;
+    post.author = user;
 
     const connection = await getDBConnection();
 

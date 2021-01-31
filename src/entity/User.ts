@@ -28,10 +28,10 @@ export class User {
   @CreateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(type => Post, post => post.author)
+  @OneToMany('Post', 'author')
   posts: Post[];
 
-  @OneToMany(type => Comment, comment => comment.user)
+  @OneToMany('Comment', 'user')
   comments: Comment[]
 
   password: string;
@@ -49,13 +49,13 @@ export class User {
   }
 
   async validate() {
-    // const connection = await getDBConnection();
-    //
-    // const found = await connection.manager.find(User, {username: this.username});
-    //
-    // if (found) {
-    //   this.errors.username.push('已存在，不能重复注册');
-    // }
+    const connection = await getDBConnection();
+
+    const found = await connection.manager.find(User, {username: this.username});
+
+    if (found) {
+      this.errors.username.push('已存在，不能重复注册');
+    }
 
     if (this.username.trim() === '') {
       this.errors.username.push('不能为空');
