@@ -1,71 +1,45 @@
 import * as React from 'react'
 import {NextPage} from 'next'
-import Form from '../../components/Form'
-import {useCallback, useState} from 'react'
-import axios, {AxiosResponse} from 'axios'
+import axios from 'axios'
+import useForm from 'hooks/useForm'
+
+type FormData = {
+  title: string;
+  content: string;
+}
 
 const PostsNew: NextPage = () => {
-  const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-  })
+  const initFormData = {title: '', content: ''}
 
-  const [errors, setErrors] = useState({
-    title: [],
-    content: [],
-  })
-
-  const onChange = useCallback((key, value) => {
-    setFormData({
-      ...formData,
-      [key]: value,
-    });
-  }, [formData]);
-
-  const onSubmit = useCallback(async (e) => {
-    e.preventDefault()
-
-    setErrors({title: [], content: []})
-
+  const onSubmit = async (formData: typeof initFormData) => {
     try {
-      await axios.post(`/api/v1/sessions`, formData)
-
-      alert('登录成功')
+      await axios.post('/api/v1/posts', formData)
+      alert('提交成功')
     } catch (e) {
-      alert('登录失败')
-      if (e.response) {
-        const response: AxiosResponse = e.response
-
-        if (response.status === 422) {
-          setErrors(response.data)
-        }
-      }
+      setErrors(e.response.data)
     }
-  }, [formData])
+  }
+
+  const {form, setErrors} = useForm<FormData>({
+    initFormData,
+    fields: [
+      {
+        label: '标题',
+        inputType: 'text',
+        key: 'title',
+      },
+      {
+        label: '内容',
+        inputType: 'textarea',
+        key: 'content',
+      }
+    ],
+    onSubmit,
+    button: <button type="submit">提交</button>
+  })
 
   return (
-    <div>
-      <Form
-        onSubmit={onSubmit}
-        button={<button type="submit">提交</button>}
-        fields={[
-          {
-            label: '标题',
-            inputType: 'text',
-            value: formData.title,
-            onChange: e => onChange('title', e.target.value),
-            errors: errors.title
-          },
-          {
-            label: '内容',
-            inputType: 'textarea',
-            value: formData.content,
-            onChange: e => onChange('content', e.target.value),
-            errors: errors.content
-          }
-        ]}
-      />
-    </div>
+    <div>{form}</div>
   )
 }
 

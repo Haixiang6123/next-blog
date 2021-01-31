@@ -1,10 +1,9 @@
 import * as React from 'react'
-import {useCallback, useState} from 'react'
 import {GetServerSideProps, GetServerSidePropsContext, NextPage} from 'next'
 import axios, {AxiosResponse} from 'axios'
 import withSession from '../lib/withSession'
 import {User} from '../src/entity/User'
-import Form from '../components/Form'
+import useForm from '../hooks/useForm'
 
 type Props = {
   user: User
@@ -13,26 +12,12 @@ type Props = {
 const SignIn: NextPage<Props> = (props) => {
   const {user} = props
 
-  const [formData, setFormData] = useState({
+  const initFormData = {
     username: '',
     password: '',
-  })
+  }
 
-  const [errors, setErrors] = useState({
-    username: [],
-    password: [],
-  })
-
-  const onChange = useCallback((key, value) => {
-    setFormData({
-      ...formData,
-      [key]: value,
-    });
-  }, [formData]);
-
-  const onSubmit = useCallback(async (e) => {
-    e.preventDefault()
-
+  const onSubmit = async (formData: typeof initFormData) => {
     setErrors({username: [], password: []})
 
     try {
@@ -49,33 +34,31 @@ const SignIn: NextPage<Props> = (props) => {
         }
       }
     }
-  }, [formData])
+  }
+
+  const {form, setErrors} = useForm({
+    initFormData,
+    fields: [
+      {
+        label: '用户名',
+        inputType: 'text',
+        key: 'username',
+      },
+      {
+        label: '密码',
+        inputType: 'password',
+        key: 'password'
+      }
+    ],
+    onSubmit,
+    button: <button type="submit">登录</button>
+  })
 
   return (
     <div>
       <h1>登录</h1>
-      {user && <div>当前登录为：{user.username}</div>}
-      <hr/>
-
-      <Form
-        onSubmit={onSubmit}
-        button={<button type="submit">登录</button>}
-        fields={[
-        {
-          label: '用户名',
-          inputType: 'text',
-          value: formData.username,
-          errors: errors.username,
-          onChange: (e) => onChange('username', e.target.value)
-        },
-        {
-          label: '密码',
-          inputType: 'password',
-          value: formData.password,
-          errors: errors.password,
-          onChange: (e) => onChange('password', e.target.value)
-        }
-      ]}/>
+      {user && <p>当前登录：{user.username}</p>}
+      {form}
     </div>
   )
 }
