@@ -57,6 +57,7 @@ const SignIn: NextPage<Props> = (props) => {
   return (
     <div>
       <h1>登录</h1>
+      <hr/>
       {user && <p>当前登录：{user.username}</p>}
       {form}
     </div>
