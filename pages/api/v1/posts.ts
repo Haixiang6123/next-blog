@@ -1,14 +1,27 @@
-import {NextApiHandler} from 'next';
-import {getPosts} from 'lib/posts';
+import {NextApiHandler} from 'next'
+import {Post} from 'src/entity/Post'
+import getDBConnection from 'lib/getDBConnection'
+import withSession from 'lib/withSession'
 
 // 只在 Node 环境里运行
 const Posts: NextApiHandler = async (req, res) => {
-  const posts = await getPosts();
+  if (req.method === 'POST') {
+    const {title, content} = req.body;
 
-  res.statusCode = 200
-  res.setHeader('Content-Type', 'application/json')
-  res.write(JSON.stringify(posts))
-  res.end();
+    const user = req.session.get('currentUser');
+
+    const post = new Post();
+
+    post.title = title;
+    post.content = content;
+    post.authorId = user.id;
+
+    const connection = await getDBConnection();
+
+    await connection.manager.save(post);
+
+    res.json(post);
+  }
 }
 
-export default Posts;
+export default withSession(Posts);
