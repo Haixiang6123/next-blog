@@ -83,7 +83,7 @@ export const getServerSideProps: GetServerSideProps = withSession(async (context
 
   return {
     props: {
-      user,
+      user: user || null,
     }
   }
 });
