@@ -59,7 +59,7 @@ function useForm<F>(options: UseFormOptions<F>) {
   const form = (
     <form onSubmit={_onSubmit}>
       {fields.map(field => (
-        <div key={field.label}>
+        <div key={field.key.toString()}>
           <label>{field.label}
             {field.inputType === 'textarea'
               ? <textarea onChange={(e) => onChange(field.key, e.target.value)}>
