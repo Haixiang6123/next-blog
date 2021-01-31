@@ -34,7 +34,11 @@ const SignIn: NextPage<Props> = (props) => {
       success: () => {
         alert('登录成功')
         const query = qs.parse(window.location.search);
-        window.location.replace(typeof query.return_to === 'string' ? query.return_to : '/posts')
+        window.location.replace(
+          typeof query.return_to === 'string'
+            ? decodeURIComponent(query.return_to)
+            : '/posts'
+        )
       }
     },
     button: <button type="submit">登录</button>
