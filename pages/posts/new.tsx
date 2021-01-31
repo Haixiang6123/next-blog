@@ -9,19 +9,8 @@ type FormData = {
 }
 
 const PostsNew: NextPage = () => {
-  const initFormData = {title: '', content: ''}
-
-  const onSubmit = async (formData: typeof initFormData) => {
-    try {
-      await axios.post('/api/v1/posts', formData)
-      alert('提交成功')
-    } catch (e) {
-      setErrors(e.response.data)
-    }
-  }
-
-  const {form, setErrors} = useForm<FormData>({
-    initFormData,
+  const {form} = useForm<FormData>({
+    initFormData: {title: '', content: ''},
     fields: [
       {
         label: '标题',
@@ -34,7 +23,12 @@ const PostsNew: NextPage = () => {
         key: 'content',
       }
     ],
-    onSubmit,
+    submit: {
+      request: async (formData) => {
+        return await axios.post('/api/v1/posts', formData)
+      },
+      message: '提交成功'
+    },
     button: <button type="submit">提交</button>
   })
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps, GetServerSidePropsContext, NextPage} from 'next'
-import axios, {AxiosResponse} from 'axios'
+import axios from 'axios'
 import withSession from '../lib/withSession'
 import {User} from '../src/entity/User'
 import useForm from '../hooks/useForm'
@@ -12,32 +12,8 @@ type Props = {
 const SignIn: NextPage<Props> = (props) => {
   const {user} = props
 
-  const initFormData = {
-    username: '',
-    password: '',
-  }
-
-  const onSubmit = async (formData: typeof initFormData) => {
-    setErrors({username: [], password: []})
-
-    try {
-      await axios.post(`/api/v1/sessions`, formData)
-
-      alert('登录成功')
-    } catch (e) {
-      alert('登录失败')
-      if (e.response) {
-        const response: AxiosResponse = e.response
-
-        if (response.status === 422) {
-          setErrors(response.data)
-        }
-      }
-    }
-  }
-
-  const {form, setErrors} = useForm({
-    initFormData,
+  const {form} = useForm({
+    initFormData: {username: '', password: ''},
     fields: [
       {
         label: '用户名',
@@ -50,7 +26,12 @@ const SignIn: NextPage<Props> = (props) => {
         key: 'password'
       }
     ],
-    onSubmit,
+    submit: {
+      request: async (formData) => {
+        return await axios.post(`/api/v1/sessions`, formData)
+      },
+      message: '登录成功'
+    },
     button: <button type="submit">登录</button>
   })
 
