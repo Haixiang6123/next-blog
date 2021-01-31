@@ -13,10 +13,10 @@ type Post = {
   content: string;
 }
 
-declare module 'next' {
-  import {Session} from 'next-iron-session'
-
-  interface NextApiRequest {
-    session: Session;
-  }
-}
+// declare module 'next' {
+//   import {Session} from 'next-iron-session'
+//
+//   interface NextApiRequest {
+//     session: Session;
+//   }
+// }

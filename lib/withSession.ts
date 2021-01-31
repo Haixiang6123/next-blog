@@ -5,5 +5,8 @@ export default function withSession(handler: NextApiHandler) {
   return withIronSession(handler, {
     password: 'helloheljaslkjflkasjflkajsdklfjalksdjflkajs',
     cookieName: 'blog',
+    cookieOptions: {
+      secure: false,
+    }
   })
 }
