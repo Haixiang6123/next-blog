@@ -4,7 +4,7 @@ import axios from 'axios'
 import withSession from '../lib/withSession'
 import {User} from '../src/entity/User'
 import useForm from '../hooks/useForm'
-import qs from 'query-string';
+import qs from 'querystring';
 
 type Props = {
   user: User
@@ -33,7 +33,7 @@ const SignIn: NextPage<Props> = (props) => {
       },
       success: () => {
         alert('登录成功')
-        const query = qs.parse(window.location.search);
+        const query = qs.parse(window.location.search.slice(1));
         window.location.replace(
           typeof query.return_to === 'string'
             ? decodeURIComponent(query.return_to)
