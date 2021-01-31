@@ -27,7 +27,10 @@ const PostsNew: NextPage = () => {
       request: async (formData) => {
         return await axios.post('/api/v1/posts', formData)
       },
-      success: () => alert('提交成功'),
+      success: () => {
+        alert('提交成功')
+        window.location.href = '/posts';
+      },
     },
     button: <button type="submit">提交</button>
   })
