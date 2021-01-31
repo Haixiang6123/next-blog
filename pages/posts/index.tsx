@@ -1,6 +1,8 @@
 import {GetStaticProps, NextPage} from 'next';
 import {getPosts} from 'lib/posts';
 import Link from 'next/link';
+import getDBConnection from '../../lib/getDBConnection'
+import {Post} from '../../src/entity/Post'
 
 type Props = {
   posts: Post[]
@@ -22,11 +24,14 @@ const PostsIndex: NextPage<Props> = (props) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = await getPosts();
+  const connection = await getDBConnection();
+  const posts = await connection.manager.find(Post);
+
+  console.log(posts)
 
   return {
     props: {
-      posts: JSON.parse(JSON.stringify(posts))
+      posts: posts ? JSON.parse(JSON.stringify(posts)) : []
     }
   }
 }
