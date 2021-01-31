@@ -10,6 +10,12 @@ const Posts: NextApiHandler = async (req, res) => {
 
     const user = req.session.get('currentUser');
 
+    if (!user) {
+      res.statusCode = 401
+      res.end()
+      return;
+    }
+
     const post = new Post();
 
     post.title = title;

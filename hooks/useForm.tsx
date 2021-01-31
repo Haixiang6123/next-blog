@@ -14,7 +14,7 @@ type UseFormOptions<F> = {
   button: ReactChild;
   submit: {
     request: (fromData: F) => Promise<AxiosResponse<F>>;
-    message: string;
+    success: () => void;
   }
 }
 
@@ -45,12 +45,17 @@ function useForm<F>(options: UseFormOptions<F>) {
     e.preventDefault()
     try {
       await submit.request(formData)
-      window.alert(submit.message);
+
+      submit.success();
     } catch (error) {
       if (error.response) {
         const response: AxiosResponse = error.response;
         if (response.status === 422) {
           setErrors(error.response.data)
+        }
+        else if (response.status === 401) {
+          window.alert('请先登录')
+          window.location.href = `/sign_in?return_to=${encodeURIComponent(window.location.pathname)}`
         }
       }
     }

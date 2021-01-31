@@ -4,6 +4,7 @@ import axios from 'axios'
 import withSession from '../lib/withSession'
 import {User} from '../src/entity/User'
 import useForm from '../hooks/useForm'
+import qs from 'query-string';
 
 type Props = {
   user: User
@@ -30,7 +31,11 @@ const SignIn: NextPage<Props> = (props) => {
       request: async (formData) => {
         return await axios.post(`/api/v1/sessions`, formData)
       },
-      message: '登录成功'
+      success: () => {
+        alert('登录成功')
+        const query = qs.parse(window.location.search);
+        window.location.replace(typeof query.return_to === 'string' ? query.return_to : '/posts')
+      }
     },
     button: <button type="submit">登录</button>
   })

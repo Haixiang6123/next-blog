@@ -27,7 +27,7 @@ const SignUp: NextPage = () => {
       request: async (formData) => {
         return await axios.post(`/api/v1/users`, formData)
       },
-      message: '注册成功',
+      success: () => alert('注册成功'),
     },
     button: <button type="submit">注册</button>
   });
