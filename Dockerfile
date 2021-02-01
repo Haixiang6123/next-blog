@@ -16,4 +16,4 @@ COPY . .
 # 暴露代码
 EXPOSE 3000
 
-CMD ["yarn", "next-start"]
+CMD ["yarn", "next:start"]
