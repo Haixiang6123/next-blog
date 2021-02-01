@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryObj = qs.parse(queryStr)
 
   const page = queryObj.page ? parseInt(queryObj.page.toString() || '1') : 1;
-  const perPage = 1;
+  const perPage = 10;
 
   const [posts, count] = await connection.manager.findAndCount(
     Post, {skip: perPage * (page - 1), take: perPage}
