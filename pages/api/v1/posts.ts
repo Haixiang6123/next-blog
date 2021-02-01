@@ -8,6 +8,7 @@ const Posts: NextApiHandler = async (req, res) => {
   if (req.method === 'POST') {
     const {title, content} = req.body;
 
+    // @ts-ignore
     const user = req.session.get('currentUser');
 
     if (!user) {
