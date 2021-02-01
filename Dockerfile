@@ -8,7 +8,7 @@ COPY package.json ./
 COPY yarn.lock ./
 
 # 执行依赖安装
-RUN yarn install
+RUN yarn cache clean && yarn install
 
 # 将当前目录都拷贝
 COPY . .
