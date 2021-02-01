@@ -11,7 +11,9 @@
     "migration:create": "typeorm migration:create",
     "migration:run": "typeorm migration:run",
     "migration:revert": "typeorm migration:revert",
-    "entity:create": "typeorm entity:create"
+    "entity:create": "typeorm entity:create",
+    "docker:build": "docker build -t haixiangyan/node-web-app .",
+    "docker:run": "docker run -p 3000:3000 -d <your username>/node-web-app"
   },
   "dependencies": {
     "axios": "^0.21.1",
