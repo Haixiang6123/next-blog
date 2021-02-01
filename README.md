@@ -68,3 +68,8 @@ npx typeorm migration:run
 ```
 
 * 编译 TypeScript `npx babel ./src --out-dir dist --extensions ".ts,.tsx"`
+
+## Docker 化应用
+
+参考：https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
+
